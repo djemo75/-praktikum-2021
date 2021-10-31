@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>GameWorld - the best game portal</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet" />
+        <link href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link href="css/games.css" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+            <div class="container">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <img src="images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" />
+                    GameWorld
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Начало</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Форум</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Контакти</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row mt-3 mt-md-5">
+                <div class="col-12 col-md-9">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4>Игри</h4>
+                        <div>
+                            <button id="grid-view" type="button" class="btn btn-secondary">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button id="two-columns-view" type="button" class="btn btn-outline-secondary">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button id="list-view" type="button" class="btn btn-outline-secondary">
+                                <i class="fas fa-th-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="mt-2 mt-md-0">
+                        <div id="games-error" class="text-center text-danger"></div>
+                        <div id="games-list" class="row"></div>
+                    </div>
+
+                    <div class="mt-2 mb-5 text-center">
+                        <button id="btn-show-more" type="button" class="btn btn-primary d-none">Show more</button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="card mt-2 mt-md-0 bg-secondary text-white">
+                        <div class="card-header">Филтри</div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label" for="filter-category">Категория</label>
+                                    <select class="form-select" id="filter-category">
+                                        <option value="">Всички</option>
+                                        <option value="mmorpg">Mmorpg</option>
+                                        <option value="shooter">Shooter</option>
+                                        <option value="strategy">Strategy</option>
+                                        <option value="moba">Moba</option>
+                                        <option value="racing">Racing</option>
+                                        <option value="sports">Sports</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="sort-by">Сортирай по</label>
+                                    <select class="form-select" id="sort-by">
+                                        <option value="release-date">Дата на излизане</option>
+                                        <option value="popularity">Популярност</option>
+                                        <option value="alphabetical">Азбучен ред</option>
+                                        <option value="relevance">Уместност</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Избери платформа</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="game-platform" id="radio-all" value="" checked />
+                                        <label class="form-check-label" for="radio-all"> Всички </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="game-platform" id="radio-pc" value="pc" />
+                                        <label class="form-check-label" for="radio-pc"> PC </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="game-platform" id="radio-browser" value="browser" />
+                                        <label class="form-check-label" for="radio-browser"> Браузър </label>
+                                    </div>
+                                </div>
+
+                                <button id="get-games" type="button" class="btn btn-dark">Търси</button>
+
+                                <button id="reset-movies-filter" type="clear" class="btn btn-light">Изчисти</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Templates -->
+        <div id="games-grid-template" class="d-none">
+            <div class="col-md-4">
+                <a href="" id="game-link" class="text-decoration-none"
+                    ><div class="card mb-4 grow shadow">
+                        <div class="image-wrapper">
+                            <img id="game-image" class="card-img-top" width="262" height="148" src="" />
+                        </div>
+                        <div class="card-body bg-dark text-white">
+                            <h4 id="game-title" class="card-title text-truncate"></h4>
+                            <p id="game-description" class="text-truncate text-muted mb-2"></p>
+                            <div id="game-platform" class="d-flex justify-content-end"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div id="games-two-columns-template" class="d-none">
+            <div class="col-md-6">
+                <a href="" id="game-link" class="text-decoration-none"
+                    ><div class="card mb-4 grow shadow">
+                        <div class="image-wrapper">
+                            <img id="game-image" class="card-img-top" height="250" src="" style="object-fit: cover" />
+                        </div>
+                        <div class="card-body bg-dark text-white">
+                            <h4 id="game-title" class="card-title text-truncate"></h4>
+                            <p id="game-description" class="text-muted mb-2"></p>
+                            <div id="game-platform" class="d-flex justify-content-end"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div id="games-list-template" class="d-none">
+            <div class="col-md-12">
+                <div class="mb-4 grow shadow d-flex">
+                    <div class="image-wrapper">
+                        <img id="game-image" width="262" height="100%" src="" style="object-fit: cover" />
+                    </div>
+                    <div class="card-body bg-dark text-white">
+                        <h4 id="game-title" class="card-title text-truncate"></h4>
+                        <span id="game-platform" class="badge bg-primary"></span>
+                        <p id="game-description" class="text-muted mt-2 mb-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script
+            src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"
+            integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA="
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+        <script src="js/games.js"></script>
+    </body>
+</html>
